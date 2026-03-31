@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "R 脚本快照自动记录",
+  "description": "当 R 脚本保存时，自动检测文件中的 # SNAPSHOT_STEP: <name> 注释。如果存在，则调用 Rscript 执行该脚本并保存环境快照（RDS），同时将版本记录追加到 results/snapshots/snapshot_manifest.csv 清单中，方便日后追溯每个分析步骤的中间结果。",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.R"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "Rscript scripts/snapshot_step.R ${file}",
+    "timeout": 120
+  }
+}

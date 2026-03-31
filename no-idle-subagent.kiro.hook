@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "name": "防止子代理空转检查",
+  "description": "在每次工具调用后检查：如果调用了子代理（invokeSubAgent）但没有产生任何文件写入，提醒自己直接执行写入操作而不是依赖子代理。",
+  "version": "1",
+  "when": {
+    "type": "postToolUse",
+    "toolTypes": [
+      ".*invokeSubAgent.*"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "检查子代理是否实际完成了工作。如果子代理返回的结果中没有实际的文件写入操作，你必须立即自己直接使用 fsWrite/strReplace 工具完成写入，不要再次调用子代理。绝对不允许空转——每次交互都必须产生实际的文件变更。"
+  },
+  "workspaceFolderName": "Talk Deal",
+  "shortName": "no-idle-subagent"
+}
